@@ -1,13 +1,39 @@
 const Event = require("../models/Event");
+
+
+const getLastEventID = async () => {
+    try {
+        const lastEvent  = await Event.findOne().sort({ createdAt: -1 }).select('event_id');
+        console.log("Last Event ID:", lastEvent ? lastEvent.event_id : "No events found");
+        if (!lastEvent) {
+            return null; // No events found
+        }
+        return lastEvent.event_id;
+    } catch (error) {
+        console.error("Error fetching last event ID:", error);
+        throw new Error("Could not fetch last event ID");
+    }
+};
 const createEvent = async (req, res) => {
-  const { title, date, location, category } = req.body;
+    const find_last_event  = getLastEventID();
+    const event_id = null;
+    if (!find_last_event) {
+        event_id = 1;
+    }
+  const { title, description , dateTime , location, category  ,paid , notes , budget  } = req.body;
   try {
     const event = new Event({
-      title,
-      dateTime: date,
-      location,
-      organizer: req.user._id, // Assuming req.user is populated with the authenticated user's data
-      category,
+        event_id: event_id + 1, // Increment the last event ID
+        title,
+        description,
+        dateTime,
+        location,
+        category,
+        organizer: req.user._id, // Assuming req.user is populated with the authenticated user's data
+        students: [], // Initially, no students are registered
+        paid,
+        notes,
+        budget,
     });
     await event.save();
     res.status(201).json({ message: "Event created successfully", event });
