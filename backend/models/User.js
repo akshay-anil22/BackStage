@@ -4,21 +4,28 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
-    required : true,
+    required: true,
     trim: true
   },
   
-  email : {
+  email: {
     type: String,
-    required : true,
-    lowercase : true,
-    unique : true,
+    required: true,
+    lowercase: true,
+    unique: true
   },
 
-  password : {
+  password: {
     type: String,
-    required : true,
+    required: true
+  },
+
+  role: {
+    type: String,
+    enum: ['student', 'organizer'],
+    default: 'student'
   }
-} , {timestamps : true});
+
+}, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

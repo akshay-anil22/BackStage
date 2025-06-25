@@ -2,11 +2,11 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-
 const strongPassword = (password) => {
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   return regex.test(password);
-}
+};
 
 const registerUser = async (req, res) => {
   try {
@@ -60,41 +60,69 @@ const loginuser = async (req, res) => {
   }
 };
 
-const changePassword = async (req,res) =>{
-  const { oldPassword , newPassword }= req.body;
-  try
-  {
+const changePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  try {
     const user = await User.findById(req.user._id);
-    if (!user)
-    {
-      return res.status(404).json({message : "User not found"});
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    const isMatch= await bcrypt.compare(oldPassword,user.password);
-    if (!isMatch)
-    {
-      return res.status(400).json({message : "Current Password does not match"});
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ message: "Current Password does not match" });
     }
 
-    if (!strongPassword(newPassword))
-    {
-      return res.status(400).json({message: "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."})
+    if (!strongPassword(newPassword)) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.",
+        });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashpass = await bcrypt.hash(newPassword, salt);
-    
-    user.password= hashpass;
+
+    user.password = hashpass;
     await user.save();
 
-    res.status(200).json({message: "Password change succesfully"});
-
+    res.status(200).json({ message: "Password change succesfully" });
+  } catch (err) {
+    console.log("Change password error", err.message);
+    return res.status(500).json({ message: "Something went wrong" });
   }
-  catch(err)
-  {
-    console.log('Change password error',err.message);
-    return res.status(500).json({message : "Something went wrong"});
-  }
-}
+};
 
-module.exports = { registerUser, loginuser, changePassword};
+const promoteToOrganizer = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    console.log("in promote controller");
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    if (user.role === "organizer") {
+      return res.status(400).json({ message: "You are already a organizer" });
+    }
+
+    user.role = "organizer";
+    await user.save();
+
+    return res.status(200).json({ message: "You are a Organizer" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginuser,
+  changePassword,
+  promoteToOrganizer,
+};
