@@ -4,6 +4,7 @@
   <p id="user-email"></p>
 
   <button id="promote-btn">Register as Organizer</button>
+  <button id="create-event-btn">Create Event</button>
 
   <script>
     const token = localStorage.getItem("token");
@@ -52,6 +53,12 @@
           alert("Failed to promote user. Try again later.");
           console.error(err);
         }
+      });
+
+    document
+      .getElementById("create-event-btn")
+      .addEventListener("click", () => {
+        window.location.href = "/frontend/create.html";
       });
   </script>
 </body>
