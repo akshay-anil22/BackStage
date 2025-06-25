@@ -77,3 +77,11 @@ const deleteEvent = async (req, res) => {
     }
 }
 
+module.exports = {
+    createEvent,
+    getAllEvents,
+    getEventById,
+    updateEvent,
+    deleteEvent,
+    // Additional functions like registerForEvent, getRegisteredEvents, getOrganizedEvents can be added here
+};
