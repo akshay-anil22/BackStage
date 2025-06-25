@@ -8,15 +8,18 @@ const {
     createEvent,
     getAllEvents,
     getEventById,
-    updateEvent,
     deleteEvent,
+    registerForEvent,
 } = require('../controllers/eventController');
 
 
 router.post('/create' , protect  , roleMiddleware('organizer') , createEvent);      //create
-router.get('/all', protect , roleMiddleware('organizer'), getAllEvents);            //dashboard
-router.get('/:id', protect , roleMiddleware('organizer'), getEventById);            //event/:id
-router.put('/:id', protect  , roleMiddleware('organizer'), updateEvent);            //event/:id
+
+
+router.get('/', protect , getAllEvents);                                            //dashboard
+router.get('/:id', protect , getEventById);                                         //event/:id
 router.delete('/:id', protect  , roleMiddleware('organizer'), deleteEvent);         //event/:id
 
-module.exports= router;
+router.get('/join/:id' , protect , registerForEvent);                               //event/:id
+
+module.exports = router;
