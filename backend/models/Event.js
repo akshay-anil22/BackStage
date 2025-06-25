@@ -1,61 +1,65 @@
-const mongoose  = require('mongoose');
+const mongoose = require("mongoose");
 
-const eventSchema  = new mongoose.Schema(
-    {
-    event_id:{
-        type: String,
-        unique: true,
-        required: true,
-        trim: true
+const eventSchema = new mongoose.Schema(
+  {
+    event_id: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
     },
-    title :{
-        type: String,
-        required: true,
-        trim: true
-        },
-    description :{
-        type: String,
-        required: true,
+    title: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    dateTime:{
-        type: Date ,
-        required: true,
+    description: {
+      type: String,
+      required: true,
     },
-    location :{
-        type: String,
-        required: true,
-        trim: true
+    dateTime: {
+      type: Date,
+      required: true,
     },
-    organizer:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+    location: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    students: [{
+    organizer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    students: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default :[]
-    }],
+        ref: "User",
+        default: [],
+      },
+    ],
     category: {
-        type: String,
-        enum: ['Workshop', 'Seminar', 'Conference', 'Webinar'],
-        required: true    
+      type: String,
+      enum: ["Workshop", "Seminar", "Conference", "Webinar"],
+      required: true,
     },
-    paid:{
-        type: Boolean,
-        default: false
+    paid: {
+      type: Boolean,
+      default: false,
     },
     notes: {
-        type: String,
-        trim: true,
-        select: false,
-        default: ''
+      type: String,
+      trim: true,
+      select: false,
+      default: "",
     },
     budget: {
-        type: Number,
-        default: 0,
-        min: 0
-    }
+      type: Number,
+      default: 0,
+      min: 0,
     },
-    {timestamps:true}
+  },
+  { timestamps: true }
 );
+
+module.exports = mongoose.model("Event", eventSchema);

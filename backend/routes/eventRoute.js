@@ -19,4 +19,4 @@ router.get('/:id', protect , roleMiddleware('organizer'), getEventById);        
 router.put('/:id', protect  , roleMiddleware('organizer'), updateEvent);            //event/:id
 router.delete('/:id', protect  , roleMiddleware('organizer'), deleteEvent);         //event/:id
 
-
+module.exports= router;
