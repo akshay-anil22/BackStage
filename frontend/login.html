@@ -12,6 +12,10 @@
     <button type="submit">Login</button>
   </form>
 
+  <br>
+  <!-- 🔽 Register Button -->
+  <button id="registerBtn">Register</button>
+
   <script>
     document.getElementById("loginForm").addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -32,11 +36,15 @@
       if (res.ok) {
         localStorage.setItem("token", data.token);
         alert("Login successful!");
-        // optionally redirect
         window.location.href = "profile.html";
       } else {
         alert(data.message || "Login failed.");
       }
+    });
+
+    // 🔽 Register Button Handler
+    document.getElementById("registerBtn").addEventListener("click", function () {
+      window.location.href = "/frontend/index.html";
     });
   </script>
 </body>

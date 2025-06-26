@@ -18,8 +18,18 @@ form.addEventListener('submit', async (e) => {
     console.log(data);
 
     alert(data.message || 'Registration successful');
+    
+    if (res.ok) {
+     
+      window.location.href = 'login.html';
+    }
   } catch (err) {
     console.error(err);
     alert('Something went wrong');
   }
+});
+
+// 🔽 Handle Login button redirect
+document.getElementById('login-btn').addEventListener('click', () => {
+  window.location.href = 'login.html';
 });
