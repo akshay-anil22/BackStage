@@ -35,7 +35,7 @@
         .then((res) => {
           if (res.status === 401) {
             localStorage.removeItem("token");
-            window.location.href = "/frontend/login.html";
+            window.location.href = "/login.html";
           } else {
             return res.json();
           }
@@ -53,7 +53,7 @@
         })
         .catch((err) => {
           alert("Access denied. Please login.");
-          window.location.href = "/frontend/login.html";
+          window.location.href = "/login.html";
         });
 
       document
@@ -78,7 +78,7 @@
       document
         .getElementById("create-event-btn")
         .addEventListener("click", () => {
-          window.location.href = "/frontend/create.html";
+          window.location.href = "/create.html";
         });
 
       function renderEvents(events, containerId) {
@@ -101,7 +101,7 @@
           <small>${new Date(event.dateTime).toLocaleString()}</small><br />
           <p><strong>Location:</strong> ${event.location}</p>
           <br />
-          <button onclick="window.location.href='/frontend/event.html?event_id=${
+          <button onclick="window.location.href='/event.html?event_id=${
             event.event_id
           }'">
             View Details

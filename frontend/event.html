@@ -1,111 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Event Details</title>
-</head>
-<body>
-  <h2 id="title">Loading...</h2>
-  <p id="description"></p>
-  <p id="date"></p>
-  <p id="location"></p>
-  <p id="category"></p>
-  <p id="organizer"></p>
-  <p id="students"></p>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Event Details</title>
+  </head>
+  <body>
+    <h2 id="title">Loading...</h2>
+    <p id="description"></p>
+    <p id="date"></p>
+    <p id="location"></p>
+    <p id="category"></p>
+    <p id="organizer"></p>
+    <p id="students"></p>
 
-  <button id="join-btn">Join Event</button>
-  <button id="delete-btn" style="display:none; background-color:red; color:white;">Delete Event</button>
+    <button id="join-btn">Join Event</button>
+    <button
+      id="delete-btn"
+      style="display: none; background-color: red; color: white"
+    >
+      Delete Event
+    </button>
 
-  <p id="message"></p>
-  <a href="/frontend/profile.html">← Back to Events</a>
+    <p id="message"></p>
+    <a href="/profile.html">← Back to Events</a>
 
-  <script>
-    const token = localStorage.getItem("token");
-    const eventId = new URLSearchParams(window.location.search).get("event_id");
+    <script>
+      const token = localStorage.getItem("token");
+      const eventId = new URLSearchParams(window.location.search).get(
+        "event_id"
+      );
 
-    if (!token || !eventId) {
-      alert("Missing token or event ID.");
-      window.location.href = "/login.html";
-    }
-
-    const headers = {
-      Authorization: "Bearer " + token,
-    };
-
-    let currentUserId = null;
-    let alreadyJoined = false;
-
-    async function loadEventDetails() {
-      try {
-        // Get user
-        const userRes = await fetch("https://backstage-041f.onrender.com/api/dashboard", { headers });
-        const userData = await userRes.json();
-        currentUserId = userData.user._id;
-        const role = userData.user.role;
-
-        // Get event
-        const res = await fetch(`https://backstage-041f.onrender.com/event/${eventId}`, { headers });
-        const event = await res.json();
-
-        document.getElementById("title").innerText = event.title;
-        document.getElementById("description").innerText = "📝 " + event.description;
-        document.getElementById("date").innerText = "📅 " + new Date(event.dateTime).toLocaleString();
-        document.getElementById("location").innerText = "📍 " + event.location;
-        document.getElementById("category").innerText = "📚 " + event.category;
-        document.getElementById("organizer").innerText = "👤 Organizer: " + event.organizer.username;
-
-        const studentNames = event.students.map(s => s.username).join(", ");
-        alreadyJoined = event.students.some(s => s._id === currentUserId);
-        document.getElementById("students").innerText = "👥 Participants: " + (studentNames || "None");
-
-        // Handle join
-        if (alreadyJoined) {
-          document.getElementById("join-btn").innerText = "✅ Already Joined";
-          document.getElementById("join-btn").disabled = true;
-        }
-
-        // Handle delete
-        if (role === "organizer" && event.organizer._id === currentUserId) {
-          document.getElementById("delete-btn").style.display = "inline-block";
-        }
-
-      } catch (err) {
-        document.getElementById("message").innerText = "❌ Error loading event.";
+      if (!token || !eventId) {
+        alert("Missing token or event ID.");
+        window.location.href = "/login.html";
       }
-    }
 
-    document.getElementById("join-btn").addEventListener("click", async () => {
-      try {
-        const res = await fetch(`https://backstage-041f.onrender.com/event/join/${eventId}`, { headers });
-        const result = await res.json();
+      const headers = {
+        Authorization: "Bearer " + token,
+      };
 
-        if (!res.ok) throw new Error(result.message);
-        document.getElementById("join-btn").innerText = "✅ Joined";
-        document.getElementById("join-btn").disabled = true;
-        document.getElementById("message").innerText = result.message;
-      } catch (err) {
-        document.getElementById("message").innerText = "❌ " + err.message;
+      let currentUserId = null;
+      let alreadyJoined = false;
+
+      async function loadEventDetails() {
+        try {
+          // Get user
+          const userRes = await fetch(
+            "https://backstage-041f.onrender.com/api/dashboard",
+            { headers }
+          );
+          const userData = await userRes.json();
+          currentUserId = userData.user._id;
+          const role = userData.user.role;
+
+          // Get event
+          const res = await fetch(
+            `https://backstage-041f.onrender.com/event/${eventId}`,
+            { headers }
+          );
+          const event = await res.json();
+
+          document.getElementById("title").innerText = event.title;
+          document.getElementById("description").innerText =
+            "📝 " + event.description;
+          document.getElementById("date").innerText =
+            "📅 " + new Date(event.dateTime).toLocaleString();
+          document.getElementById("location").innerText =
+            "📍 " + event.location;
+          document.getElementById("category").innerText =
+            "📚 " + event.category;
+          document.getElementById("organizer").innerText =
+            "👤 Organizer: " + event.organizer.username;
+
+          const studentNames = event.students.map((s) => s.username).join(", ");
+          alreadyJoined = event.students.some((s) => s._id === currentUserId);
+          document.getElementById("students").innerText =
+            "👥 Participants: " + (studentNames || "None");
+
+          // Handle join
+          if (alreadyJoined) {
+            document.getElementById("join-btn").innerText = "✅ Already Joined";
+            document.getElementById("join-btn").disabled = true;
+          }
+
+          // Handle delete
+          if (role === "organizer" && event.organizer._id === currentUserId) {
+            document.getElementById("delete-btn").style.display =
+              "inline-block";
+          }
+        } catch (err) {
+          document.getElementById("message").innerText =
+            "❌ Error loading event.";
+        }
       }
-    });
 
-    document.getElementById("delete-btn").addEventListener("click", async () => {
-      if (!confirm("Are you sure you want to delete this event?")) return;
+      document
+        .getElementById("join-btn")
+        .addEventListener("click", async () => {
+          try {
+            const res = await fetch(
+              `https://backstage-041f.onrender.com/event/join/${eventId}`,
+              { headers }
+            );
+            const result = await res.json();
 
-      try {
-        const res = await fetch(`https://backstage-041f.onrender.com/event/${eventId}`, {
-          method: "DELETE",
-          headers,
+            if (!res.ok) throw new Error(result.message);
+            document.getElementById("join-btn").innerText = "✅ Joined";
+            document.getElementById("join-btn").disabled = true;
+            document.getElementById("message").innerText = result.message;
+          } catch (err) {
+            document.getElementById("message").innerText = "❌ " + err.message;
+          }
         });
-        const result = await res.json();
-        if (!res.ok) throw new Error(result.message);
-        alert("✅ Event deleted.");
-        window.location.href = "/frontend/profile.html";
-      } catch (err) {
-        document.getElementById("message").innerText = "❌ " + err.message;
-      }
-    });
 
-    loadEventDetails();
-  </script>
-</body>
+      document
+        .getElementById("delete-btn")
+        .addEventListener("click", async () => {
+          if (!confirm("Are you sure you want to delete this event?")) return;
+
+          try {
+            const res = await fetch(
+              `https://backstage-041f.onrender.com/event/${eventId}`,
+              {
+                method: "DELETE",
+                headers,
+              }
+            );
+            const result = await res.json();
+            if (!res.ok) throw new Error(result.message);
+            alert("✅ Event deleted.");
+            window.location.href = "/profile.html";
+          } catch (err) {
+            document.getElementById("message").innerText = "❌ " + err.message;
+          }
+        });
+
+      loadEventDetails();
+    </script>
+  </body>
 </html>
