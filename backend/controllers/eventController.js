@@ -68,6 +68,7 @@ const getEventById = async (req, res) => {
 
 const getAllEvents = async (req, res) => {
   try {
+    console.log("in events controller");
     const events = await Event.find()
       .populate("organizer", "username")
       .populate("students", "username");

@@ -3,19 +3,28 @@
   <p id="user-id"></p>
   <p id="user-email"></p>
 
+  <!-- 🔽 Events will be shown here -->
+  <div id="events-section">
+    <h3>All Events:</h3>
+    <div id="events-list"></div>
+  </div>
+
+  <br>
+
   <button id="promote-btn">Register as Organizer</button>
   <button id="create-event-btn">Create Event</button>
 
   <script>
     const token = localStorage.getItem("token");
 
+    // Fetch user info
     fetch("http://localhost:5000/api/dashboard", {
       headers: {
         Authorization: "Bearer " + token,
       },
     })
       .then((res) => {
-        if (res.status == 401) {
+        if (res.status === 401) {
           localStorage.removeItem("token");
           window.location.href = "/login.html";
         } else {
@@ -23,42 +32,80 @@
         }
       })
       .then((data) => {
-        console.log(data);
         document.getElementById("welcome").innerText = data.message;
-        document.getElementById("user-id").innerText =
-          "User ID: " + data.user._id;
-        document.getElementById("user-email").innerText =
-          "Email ID: " + data.user.email;
+        document.getElementById("user-id").innerText = "User ID: " + data.user._id;
+        document.getElementById("user-email").innerText = "Email ID: " + data.user.email;
+
+        // 🔽 Fetch and display events after user info loads
+        fetchAllEvents();
       })
       .catch((err) => {
         alert("Access denied. Please login.");
         window.location.href = "/login.html";
       });
 
-    document
-      .getElementById("promote-btn")
-      .addEventListener("click", async () => {
-        try {
-          console.log("in button handler");
-          const res = await fetch("http://localhost:5000/api/promote", {
-            method: "POST",
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          });
-          console.log("after button handler");
-          const result = await res.json();
-          alert(result.message);
-        } catch (err) {
-          alert("Failed to promote user. Try again later.");
-          console.error(err);
-        }
-      });
+    // Promote button
+    document.getElementById("promote-btn").addEventListener("click", async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/promote", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        const result = await res.json();
+        alert(result.message);
+      } catch (err) {
+        alert("Failed to promote user. Try again later.");
+        console.error(err);
+      }
+    });
 
-    document
-      .getElementById("create-event-btn")
-      .addEventListener("click", () => {
-        window.location.href = "/frontend/create.html";
-      });
+    // Create Event button
+    document.getElementById("create-event-btn").addEventListener("click", () => {
+      window.location.href = "/frontend/create.html";
+    });
+
+    // 🔽 Fetch and render all events
+    function fetchAllEvents() {
+      console.log("before events fetch");
+      fetch("http://localhost:5000/event", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("after events fetch");
+          const eventsList = document.getElementById("events-list");
+
+          if (data.length === 0) {
+            eventsList.innerHTML = "<p>No events available.</p>";
+            return;
+          }
+
+          data.forEach((event) => {
+            const div = document.createElement("div");
+            div.style.border = "1px solid #ccc";
+            div.style.padding = "10px";
+            div.style.marginBottom = "10px";
+            div.innerHTML = `
+              <strong>${event.title}</strong><br>
+             
+              <p>${event.description}</p>
+              <small>${new Date(event.dateTime).toLocaleString()}</small><br>
+              <p><strong>Location:</strong> ${event.location}</p>
+              <br>
+  <button onclick="window.location.href='/frontend/event.html?event_id=${event.event_id}'">View Details</button>
+            `;
+            eventsList.appendChild(div);
+          });
+        })
+        .catch((err) => {
+          console.error("Error fetching events:", err);
+          document.getElementById("events-list").innerHTML =
+            "<p>Failed to load events.</p>";
+        });
+    }
   </script>
 </body>

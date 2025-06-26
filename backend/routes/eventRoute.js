@@ -9,7 +9,7 @@ const {
     getAllEvents,
     getEventById,
     deleteEvent,
-    registerForEvent,
+    registerToEvent,
 } = require('../controllers/eventController');
 
 
@@ -20,6 +20,6 @@ router.get('/', protect , getAllEvents);                                        
 router.get('/:id', protect , getEventById);                                         //event/:id
 router.delete('/:id', protect  , roleMiddleware('organizer'), deleteEvent);         //event/:id
 
-router.get('/join/:id' , protect , registerForEvent);                               //event/:id
+router.get('/join/:id' , protect , registerToEvent);                               //event/:id
 
 module.exports = router;
