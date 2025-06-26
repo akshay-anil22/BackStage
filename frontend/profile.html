@@ -29,7 +29,7 @@
       const token = localStorage.getItem("token");
 
       // Fetch user info
-      fetch("http://localhost:5000/api/dashboard", {
+      fetch("https://backstage-041f.onrender.com/api/dashboard", {
         headers: { Authorization: "Bearer " + token },
       })
         .then((res) => {
@@ -60,10 +60,13 @@
         .getElementById("promote-btn")
         .addEventListener("click", async () => {
           try {
-            const res = await fetch("http://localhost:5000/api/promote", {
-              method: "POST",
-              headers: { Authorization: "Bearer " + token },
-            });
+            const res = await fetch(
+              "https://backstage-041f.onrender.com/api/promote",
+              {
+                method: "POST",
+                headers: { Authorization: "Bearer " + token },
+              }
+            );
             const result = await res.json();
             alert(result.message);
           } catch (err) {
@@ -109,7 +112,7 @@
       }
 
       function fetchAllEvents() {
-        fetch("http://localhost:5000/event", {
+        fetch("https://backstage-041f.onrender.com/event", {
           headers: { Authorization: "Bearer " + token },
         })
           .then((res) => res.json())
@@ -122,7 +125,7 @@
       }
 
       function fetchOrganizedEvents() {
-        fetch("http://localhost:5000/event/organized", {
+        fetch("https://backstage-041f.onrender.com/event/organized", {
           headers: { Authorization: "Bearer " + token },
         })
           .then((res) => res.json())
@@ -135,7 +138,7 @@
       }
 
       function fetchRegisteredEvents() {
-        fetch("http://localhost:5000/event/joined", {
+        fetch("https://backstage-041f.onrender.com/event/joined", {
           headers: { Authorization: "Bearer " + token },
         })
           .then((res) => res.json())

@@ -38,13 +38,13 @@
     async function loadEventDetails() {
       try {
         // Get user
-        const userRes = await fetch("http://localhost:5000/api/dashboard", { headers });
+        const userRes = await fetch("https://backstage-041f.onrender.com/api/dashboard", { headers });
         const userData = await userRes.json();
         currentUserId = userData.user._id;
         const role = userData.user.role;
 
         // Get event
-        const res = await fetch(`http://localhost:5000/event/${eventId}`, { headers });
+        const res = await fetch(`https://backstage-041f.onrender.com/event/${eventId}`, { headers });
         const event = await res.json();
 
         document.getElementById("title").innerText = event.title;
@@ -76,7 +76,7 @@
 
     document.getElementById("join-btn").addEventListener("click", async () => {
       try {
-        const res = await fetch(`http://localhost:5000/event/join/${eventId}`, { headers });
+        const res = await fetch(`https://backstage-041f.onrender.com/event/join/${eventId}`, { headers });
         const result = await res.json();
 
         if (!res.ok) throw new Error(result.message);
@@ -92,7 +92,7 @@
       if (!confirm("Are you sure you want to delete this event?")) return;
 
       try {
-        const res = await fetch(`http://localhost:5000/event/${eventId}`, {
+        const res = await fetch(`https://backstage-041f.onrender.com/event/${eventId}`, {
           method: "DELETE",
           headers,
         });
