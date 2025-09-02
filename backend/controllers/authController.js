@@ -17,6 +17,16 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
+
+     if (!strongPassword(password)) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.",
+        });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashpass = await bcrypt.hash(password, salt);
 

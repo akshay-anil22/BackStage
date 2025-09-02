@@ -27,6 +27,8 @@ const createEvent = async (req, res) => {
     budget,
   } = req.body;
   try {
+    console.log("Incoming Event Data:", req.body); // log request body
+    console.log("User Info from Token:", req.user); // log user from middleware
     const event = new Event({
       event_id: new_event, // Increment the last event ID
       title,
@@ -43,8 +45,8 @@ const createEvent = async (req, res) => {
     await event.save();
     res.status(201).json({ message: "Event created successfully", event });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    console.error(error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -141,7 +143,10 @@ const registerToEvent = async (req, res) => {
 const getOrganized = async (req, res) => {
   const userId = req.user._id;
   try {
-    const events = await Event.find({ organizer: userId }).populate("organizer", "username");
+    const events = await Event.find({ organizer: userId }).populate(
+      "organizer",
+      "username"
+    );
 
     // Always return an array
     res.status(200).json(events);
@@ -154,7 +159,10 @@ const getRegistered = async (req, res) => {
   const userId = req.user._id;
 
   try {
-    const events = await Event.find({ students: userId }).populate("organizer", "username");
+    const events = await Event.find({ students: userId }).populate(
+      "organizer",
+      "username"
+    );
 
     // Always return an array
     res.status(200).json(events);
@@ -163,7 +171,6 @@ const getRegistered = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 
 module.exports = {
   createEvent,

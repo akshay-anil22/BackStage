@@ -14,7 +14,11 @@ const {
   getRegistered,
 } = require("../controllers/eventController");
 
-router.post("/create", protect, roleMiddleware("organizer"), createEvent); //create
+
+router.post("/create", (req, res, next) => {
+  console.log("✅ /event/create route was hit");
+  next();
+}, protect, roleMiddleware("organizer"), createEvent); //create
 
 router.get("/", protect, getAllEvents); //dashboard
 router.get("/organized", protect, getOrganized);

@@ -4,17 +4,32 @@ const dotenv = require('dotenv');
 const authRoutes= require('./routes/authRoutes');
 const protectedRoutes = require('./routes/protectedRoutes');
 const eventRoute  = require('./routes/eventRoute')
+const dashboardRoutes = require("./routes/dashboardRoutes");
 const cors = require('cors');
 
 
 dotenv.config();
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "*", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
+
+
 app.use(express.json());
+
+//app.use((req, res, next) => {
+  //console.log("➡️ Incoming:", req.method, req.url, req.headers.authorization);
+  //next();
+//});
+
 app.use('/api',authRoutes);
 app.use('/api',protectedRoutes)
 app.use('/event'  , eventRoute);
+app.use("/api", dashboardRoutes);
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
