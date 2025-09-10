@@ -56,7 +56,7 @@ A Full-Stack Event Management Web Application built using Node.js, Express.js, M
 ## 🌐 Deployment
 
   - **Backend (Render):** [https://backstage-041f.onrender.com](https://backstage-041f.onrender.com)
-  - **Frontend (Vercel):** [https://back-stage-chi.vercel.app/](https://back-stage-chi.vercel.app/)
+  - **Frontend (Vercel):** [https://back-stage-plum.vercel.app/](https://back-stage-plum.vercel.app/)
 
 ## ⚡ Setup
 
@@ -111,24 +111,31 @@ npm run dev
 
 ### Login / Register Page
 
-*\<-- Your Login/Register screenshot will go here --\>*
+<img width="1919" height="813" alt="image" src="https://github.com/user-attachments/assets/25a95854-b304-400d-85c8-38084d0fa1a2" />
+<img width="1919" height="809" alt="image" src="https://github.com/user-attachments/assets/68941c5d-f955-4cfa-b1ed-27f082b84def" />
 
 -----
 
 ### Dashboard with Events
 
-*\<-- Your Dashboard screenshot will go here --\>*
+<img width="1903" height="867" alt="image" src="https://github.com/user-attachments/assets/ae3e829b-2181-41e3-adb1-13a5c0187580" />
+
+
+<img width="1918" height="867" alt="image" src="https://github.com/user-attachments/assets/1604238b-2b01-4b62-ae23-071420b3764a" />
+
 
 -----
 
 ### Create Event Form
 
-*\<-- Your Create Event form screenshot will go here --\>*
+<img width="1917" height="871" alt="image" src="https://github.com/user-attachments/assets/534e9155-27d3-473d-a574-4875d9d13f33" />
+
 
 -----
 
 ### Event Details Page
 
-*\<-- Your Event Details page screenshot will go here --\>*
+<img width="1912" height="858" alt="image" src="https://github.com/user-attachments/assets/6ec4bffd-be28-4da1-a4c5-3a7e6ffe0ec5" />
+
 
 -----
