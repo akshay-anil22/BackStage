@@ -1,0 +1,163 @@
+
+   @font-face {
+    font-family: Mourand;
+    src: url('assets/fonts/Mourand_Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; 
+  }
+
+  @font-face {
+    font-family: Golden;
+    src: url("assets/fonts/Golden_Varsity_Regular.ttf")  format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; 
+  }
+  @font-face {
+    font-family: GoldenOutline;
+    src: url("assets/fonts/Golden_Varsity_Outline.ttf")  format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; 
+  }
+  @font-face {
+    font-family: GoldenScript;
+    src: url("assets/fonts/Golden_Varsity_Script.ttf")  format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; 
+  }
+  @font-face {
+    font-family: VisueIt;
+    src: url("assets/fonts/VisueltPro-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; 
+  }
+  @font-face {
+    font-family: VisueItLight;
+    src: url("assets/fonts/VisueltPro-Light.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; 
+  }
+  @theme {
+    --font-mourand: Mourand, sans-serif;
+    --font-golden: Golden, sans-serif;
+    --font-goldeno: GoldenOutline, sans-serif;
+    --font-goldens: GoldenScript, sans-serif;
+    --font-visueit: VisueIt, sans-serif;
+    --font-visueit-light: VisueItLight, sans-serif;
+    --color-primary-50: ##fffcf596;
+    --color-primary-100: #cce4ff;
+    --color-primary-200: #99c9ff;
+    --color-primary-300: #66afff;
+    --color-primary-400: #3394ff;
+    --color-primary-500: #007BFF;
+    --color-primary-600: #005fcc;
+    --color-primary-700: #004499;
+    --color-primary-800: #002a66;
+    --color-primary-900: #001433;
+  
+    --color-secondary: #6c757d;
+    --color-accent: #dcc04f;
+  }
+  @import "tailwindcss";
+
+  @layer components {
+    .theme-dawn {
+      background-image: 
+        radial-gradient(ellipse at 30% 25%, rgba(255, 240, 190, 0.631), transparent 80%),
+        radial-gradient(ellipse at 80% 75%, rgba(245, 220, 150, 0.43), transparent 85%),
+        linear-gradient(135deg, rgba(220, 190, 100, 0.56), rgba(255, 245, 210, 0.766));
+  
+      background-blend-mode: soft-light, overlay, normal;
+    } 
+    .theme-dawn2 {
+      background-image: 
+        radial-gradient(ellipse at 30% 25%, rgba(255, 240, 190, 0.631), transparent 80%),
+        radial-gradient(ellipse at 80% 75%, rgba(245, 220, 150, 0.73), transparent 85%),
+        linear-gradient(135deg, rgba(160, 124, 16, 0.514), rgba(255, 245, 210, 0.766));
+  
+      background-blend-mode: soft-light, overlay, normal;
+    } 
+    .theme-dawn1 {
+      background-image: 
+        radial-gradient(ellipse at 30% 25%, rgba(255, 240, 190, 0.331), transparent 80%),
+        radial-gradient(ellipse at 80% 75%, rgba(245, 220, 150, 0.13), transparent 85%),
+        linear-gradient(135deg, rgba(220, 190, 100, 0.06), rgba(255, 245, 210, 0.266));
+  
+      background-blend-mode: soft-light, overlay, normal;
+    }
+    .theme-cosmic-dawn {
+      background-image:
+        radial-gradient(ellipse at 10% 20%, rgba(255, 182, 193, 0.18), transparent 70%),
+        radial-gradient(ellipse at 90% 80%, rgba(173, 111, 237, 0.15), transparent 75%),
+        linear-gradient(160deg, rgba(255, 218, 185, 0.08), rgba(255, 192, 203, 0.25));
+      background-blend-mode: soft-light, overlay, normal;
+    }
+  
+    /* THEME 2: A deep, calming theme with shades of blue, teal, and sea green. */
+    .theme-oceanic-depth {
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(70, 130, 180, 0.2), transparent 70%),
+        radial-gradient(ellipse at 80% 25%, rgba(0, 128, 128, 0.25), transparent 75%),
+        linear-gradient(125deg, rgba(0, 0, 139, 0.15), rgba(32, 178, 170, 0.3));
+      /* Using different blend modes creates a unique "bioluminescent" effect */
+      background-blend-mode: color-dodge, screen, normal;
+    }
+  
+    /* THEME 3: A rich, natural theme with shades of green and warm gold. */
+    .theme-emerald-forest {
+      background-image:
+        radial-gradient(ellipse at 50% 20%, rgba(218, 165, 32, 0.12), transparent 70%),
+        radial-gradient(circle at 15% 85%, rgba(85, 107, 47, 0.2), transparent 70%),
+        linear-gradient(135deg, rgba(0, 100, 0, 0.15), rgba(189, 183, 107, 0.25));
+      background-blend-mode: soft-light, overlay, normal;
+    }
+  
+    /* NEW THEME: A vibrant pink and purple theme designed to frame central content. */
+    .theme-vivid {
+      background-image:
+        /* Corner glows to frame the center */
+        radial-gradient(ellipse at 0% 100%, rgba(255, 182, 193, 0.50), transparent 15%),   /* Bottom-left pink */
+        radial-gradient(ellipse at 100% 0%, rgba(255, 182, 193, 0.43), transparent 65%),   /* Top-right pink */
+        radial-gradient(ellipse at 0% 0%, rgba(173, 111, 237, 0.42), transparent 70%),  /* Top-left purple */
+        radial-gradient(ellipse at 100% 100%, rgba(173, 111, 237, 0.52), transparent 70%), /* Bottom-right purple */
+        /* A very subtle base layer for texture */
+        linear-gradient(145deg, rgba(255, 218, 185, 0.05), rgba(255, 192, 203, 0.15));
+      background-blend-mode: overlay, multiply , color-burn, color-dodge , normal;
+    }
+    .theme-vivid-focus {
+      /* 1. Add a white background color to create the desired base. */
+      
+      background-image:
+        /* 2. Create more defined "streaks" with harder stops, elongated shapes, and higher opacity. */
+        /* Pink streak from bottom left */
+        radial-gradient(ellipse 80% 50% at 10% 90%, rgba(255, 182, 193, 0.6), transparent 60%),
+        /* Purple streak from top left */
+        radial-gradient(ellipse 90% 40% at 30% 20%, rgba(173, 111, 237, 0.45), transparent 50%),
+        /* Pink streak from top right */
+        radial-gradient(ellipse 70% 50% at 90% 10%, rgba(255, 182, 193, 0.5), transparent 55%),
+        /* Purple streak from bottom right */
+        radial-gradient(ellipse 80% 60% at 80% 95%, rgba(173, 111, 237, 0.55), transparent 60%);
+      
+      /* 3. A single blend mode now smoothly combines all streak layers. */
+      background-blend-mode: soft-light ,  color-dodge , overlay  , normal;
+    }
+    .theme-crumbled-paper {
+      background-color: #fcfaf5; /* A very light, warm off-white for the paper base */
+      background-image:
+        /* A subtle noise layer using an SVG for a realistic paper texture */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='0.04'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1zm-7 0h1v1h-1v-1z'/%3E%3Cpath d='M4 0h1v1H4V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0zm7 0h1v1h-1V0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+        /* Soft, large-scale radial gradients to simulate shadows and unevenness */
+        radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.1), transparent 70%),
+        /* Sharp linear gradients to create the criss-crossing "crease" lines */
+        linear-gradient(130deg, transparent 45%, rgba(0,0,0,0.08) 50%, transparent 55%),
+        linear-gradient(35deg, transparent 47%, rgba(0,0,0,0.08) 50%, transparent 53%);
+      
+      /* Blend modes to combine the layers for a realistic effect */
+      background-blend-mode: multiply, soft-light, multiply, multiply;
+    }
+    }

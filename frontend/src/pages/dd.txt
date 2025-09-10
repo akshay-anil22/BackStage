@@ -1,0 +1,166 @@
+import React, { useEffect, useState, useMemo } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { PlusCircle, Crown, Calendar, MapPin } from 'lucide-react';
+ import API from '../api/service'; 
+ import Navbar from '../components/Navbar';
+
+
+
+const EventCard = ({ event }) => (
+    <div className="bg-white/5 border border-white/20 backdrop-blur-sm rounded-xl p-6 flex flex-col justify-between transition-transform transform hover:-translate-y-1">
+        <div>
+            <p className="text-xs font-semibold text-gray-500 tracking-wider mb-1">{event.category.toUpperCase()}</p>
+            <h3 className="font-mourand text-2xl text-black mb-3 truncate">{event.title}</h3>
+            <div className="space-y-2 text-sm text-gray-700">
+                <div className="flex items-center gap-2">
+                    <Calendar size={16} />
+                    <span>{new Date(event.dateTime).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <MapPin size={16} />
+                    <span className="truncate">{event.location}</span>
+                </div>
+            </div>
+        </div>
+        <Link 
+            to={`/event/${event.event_id}`} 
+            className="mt-6 block w-full text-center py-2 px-4 border-2 border-black font-mourand text-lg rounded-lg text-black bg-transparent hover:bg-black/10 transition-colors"
+        >
+            View Details
+        </Link>
+    </div>
+);
+
+
+function Dashboard() {
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+    const [allEvents, setAllEvents] = useState([]);
+    const [organizedEvents, setOrganizedEvents] = useState([]);
+    const [registeredEvents, setRegisteredEvents] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState('all');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                // Fetch all data in parallel for a faster load time
+                const [userData, allEventsData, organizedData, registeredData] = await Promise.all([
+                    API.get("/api/dashboard"),
+                    API.get("/event"),
+                    API.get("/event/organized"),
+                    API.get("/event/joined")
+                ]);
+                setUser(userData.user);
+                setAllEvents(allEventsData);
+                setOrganizedEvents(organizedData);
+                setRegisteredEvents(registeredData);
+
+            } catch (err) {
+                if (err.message.includes("token")) {
+                    alert("Your session has expired. Please log in again.");
+                    navigate("/login");
+                } else {
+                    console.error("Dashboard fetch error:", err);
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchData();
+    }, [navigate]);
+
+    const handlePromote = async () => {
+        if (window.confirm("Are you sure you want to register as an organizer? This action cannot be undone.")) {
+            try {
+                const result = await API.post("/api/promote");
+                alert(result.message);
+                // Refresh user data to reflect the new role
+                const userData = await API.get("/api/dashboard");
+                setUser(userData.user);
+            } catch (err) {
+                alert(`Error: ${err.message}`);
+            }
+        }
+    };
+
+    // Memoize the events to display based on the active tab
+    const eventsToDisplay = useMemo(() => {
+        switch (activeTab) {
+            case 'organized': return organizedEvents;
+            case 'registered': return registeredEvents;
+            default: return allEvents;
+        }
+    }, [activeTab, allEvents, organizedEvents, registeredEvents]);
+
+    if (isLoading) {
+        return <div className="theme-dawn1 min-h-screen flex items-center justify-center text-black font-mourand text-3xl">Loading Dashboard...</div>;
+    }
+
+    return (
+        <div className="theme-dawn1 min-h-screen bg-cover bg-center">
+            <Navbar />
+            <main className="z-10 py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto">
+                    
+                    {/* Header */}
+                    <div className="md:flex md:items-center md:justify-between">
+                        <div className="flex-1 min-w-0">
+                             <h2 className="text-4xl font-mourand text-gray-900 sm:truncate">
+                                Welcome back, {user?.username}
+                            </h2>
+                            <p className="mt-1 text-lg text-gray-600">Here's what's happening in your world.</p>
+                        </div>
+                        <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4">
+                            {user?.role !== 'organizer' && (
+                                <button onClick={handlePromote} className="inline-flex items-center gap-2 py-2 px-4 border-2 border-black font-mourand text-lg rounded-lg text-black bg-transparent hover:bg-black/10 transition-colors">
+                                    <Crown size={20} />
+                                    Become an Organizer
+                                </button>
+                            )}
+                             <Link to="/create" className="inline-flex items-center gap-2 py-2 px-4 border-2 border-black font-mourand text-lg rounded-lg text-black bg-[#FDE047] hover:bg-[#FACC15] transition-colors">
+                                <PlusCircle size={20} />
+                                Create Event
+                            </Link>
+                        </div>
+                    </div>
+                    
+                    {/* Tabs */}
+                    <div className="mt-8 border-b border-gray-400/50">
+                        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                            <button onClick={() => setActiveTab('all')} className={`whitespace-nowrap py-4 px-1 border-b-2 font-mourand text-xl ${activeTab === 'all' ? 'border-black text-black' : 'border-transparent text-gray-500 hover:text-black hover:border-gray-400'}`}>
+                                All Events
+                            </button>
+                             <button onClick={() => setActiveTab('organized')} className={`whitespace-nowrap py-4 px-1 border-b-2 font-mourand text-xl ${activeTab === 'organized' ? 'border-black text-black' : 'border-transparent text-gray-500 hover:text-black hover:border-gray-400'}`}>
+                                My Events
+                            </button>
+                             <button onClick={() => setActiveTab('registered')} className={`whitespace-nowrap py-4 px-1 border-b-2 font-mourand text-xl ${activeTab === 'registered' ? 'border-black text-black' : 'border-transparent text-gray-500 hover:text-black hover:border-gray-400'}`}>
+                                Registered
+                            </button>
+                        </nav>
+                    </div>
+
+                    {/* Events Grid */}
+                    <div className="mt-8">
+                        {eventsToDisplay && eventsToDisplay.length > 0 ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                {eventsToDisplay.map(event => (
+                                    <EventCard key={event._id} event={event} />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-16 px-6 rounded-2xl bg-white/5 border border-white/20">
+                                <h3 className="font-mourand text-2xl text-black">No Events Found</h3>
+                                <p className="mt-1 text-gray-600">There are no events in this category yet.</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
+}
+
+export default Dashboard;
+
