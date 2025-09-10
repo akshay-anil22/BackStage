@@ -1,110 +1,134 @@
-🎭 BackStage – Event Management System
 
-BackStage is a full-stack Event Management Web Application built with Node.js, Express.js, MongoDB, and React (Vite).
-It provides secure authentication, role-based access control, and event management features.
+-----
 
-🚀 Features
-🔑 Authentication
+# 🎭 Backstage - Event Management System
 
-User registration & login using JWT
+A Full-Stack Event Management Web Application built using Node.js, Express.js, MongoDB, and React (Vite). It provides secure APIs for authentication, role-based access, event creation, and registration — with a React-based frontend for users.
 
-Password hashing with bcrypt
+-----
 
-Change password functionality
+## 🚀 Features
 
-Role-based access (Normal User / Organizer)
+  - ✅ **User Authentication with JWT**
+  - 🔒 **Role-Based Access Control** (User / Organizer)
+  - 📅 **Event Management**
+      - Create, View, and Delete Events
+      - Organizer-only permissions for critical actions
+  - 👥 **Event Registration for Students**
+  - 📄 **Organized APIs** with a modular controller-service structure
 
-🎉 Events
+## 📂 Project Structure
 
-Create new events (organizers only)
+```text
+/backend
+├── controllers
+├── middleware
+├── models
+├── routes
+└── app.js
 
-View all available events
+/frontend
+├── src/
+│   ├── api
+│   ├── pages
+│   ├── App.jsx
+│   └── main.jsx
+└── package.json
+```
 
-View details of a single event
+## ⚙️ Tech Stack
 
-Join/register for events
+### Backend
 
-View events you organized and registered for
+  - **Node.js**
+  - **Express.js**
+  - **MongoDB** with **Mongoose**
+  - **JWT** for Authentication
+  - **bcrypt** for password hashing
+  - Custom Middleware for authentication & role management
 
-Delete events (organizers only)
+### Frontend
 
-🛡️ Security
+  - **React (Vite)**
+  - **React Router** for navigation
+  - **Axios** for API requests
 
-JWT-protected routes
+## 🌐 Deployment
 
-Role-based middleware for organizers
+  - **Backend (Render):** [https://backstage-041f.onrender.com](https://backstage-041f.onrender.com)
+  - **Frontend (Vercel):** [https://back-stage-chi.vercel.app/](https://back-stage-chi.vercel.app/)
 
-Password strength validation with regex
+## ⚡ Setup
 
-📂 Project Structure
-BackStage/
-│
-├── backend/                 # Node.js + Express + MongoDB
-│   ├── controllers/         # Business logic (auth, events, etc.)
-│   ├── middleware/          # Authentication & role checks
-│   ├── models/              # Mongoose schemas
-│   ├── routes/              # Express routes
-│   └── app.js               # Entry point
-│
-├── frontend/                # React app (Vite)
-│   ├── src/
-│   │   ├── api/             # Axios API setup
-│   │   ├── pages/           # React pages (Login, Register, Dashboard, etc.)
-│   │   ├── App.jsx          # Routes
-│   │   └── main.jsx         # Entry point
-│   └── package.json
-│
-└── README.md
+### 1\. Clone the Repository
 
-⚙️ Tech Stack
-Backend
-
-Node.js + Express.js
-
-MongoDB with Mongoose
-
-JWT for authentication
-
-bcrypt for password hashing
-
-Frontend
-
-React (Vite)
-
-React Router for navigation
-
-Axios for API requests
-
-🌐 Deployment
-
-Backend (Render): https://backstage-041f.onrender.com
-
-Frontend (Vercel): https://back-stage-chi.vercel.app/
-
-⚡ Setup
-1️⃣ Clone the repo
+```bash
 git clone https://github.com/akshay-anil22/BackStage.git
 cd BackStage
+```
 
-2️⃣ Backend Setup
+### 2\. Backend Setup
+
+Navigate to the backend directory:
+
+```bash
 cd backend
 npm install
+```
 
+Create a `.env` file in the `backend/` directory and add the following variables:
 
-Create a .env file inside backend/ with:
-
+```env
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 PORT=5000
+```
 
+Run the backend server:
 
-Run the backend:
-
+```bash
 nodemon app.js
+```
 
-3️⃣ Frontend Setup
+### 3\. Frontend Setup
+
+Navigate to the frontend directory:
+
+```bash
 cd frontend
 npm install
-npm run dev
+```
 
-📸 Screenshots
+Run the frontend development server:
+
+```bash
+npm run dev
+```
+
+-----
+
+## 📸 Screenshots
+
+### Login / Register Page
+
+*\<-- Your Login/Register screenshot will go here --\>*
+
+-----
+
+### Dashboard with Events
+
+*\<-- Your Dashboard screenshot will go here --\>*
+
+-----
+
+### Create Event Form
+
+*\<-- Your Create Event form screenshot will go here --\>*
+
+-----
+
+### Event Details Page
+
+*\<-- Your Event Details page screenshot will go here --\>*
+
+-----
